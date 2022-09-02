@@ -6,7 +6,7 @@
 /*   By: shsawaki <shsawaki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 12:39:52 by shsawaki          #+#    #+#             */
-/*   Updated: 2022/09/02 00:59:57 by shsawaki         ###   ########.fr       */
+/*   Updated: 2022/09/02 14:50:20 by shsawaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-char	*ft_read(int fd, char *save)//saveに改行がくるまでreadし、saveに結合する関数
+char	*ft_read(int fd, char *save)
 {
 	int		cc;
 	char	*buf;
@@ -26,23 +26,19 @@ char	*ft_read(int fd, char *save)//saveに改行がくるまでreadし、saveに
 	while (!ft_strchr(save, '\n') && cc != 0)
 	{
 		cc = read(fd, buf, BUFFER_SIZE);
-		if (cc <= 0)
+		if (cc == -1)
 		{
 			free(buf);
 			return (NULL);
 		}
 		buf[cc] = '\0';
-		// printf("%d\n", __LINE__);
-		//printf("%s\n",buf);
 		save = ft_strjoin(save, buf);
-		//printf("%s\n", save);
-		// printf("%d\n", __LINE__);
 	}
 	free(buf);
 	return (save);
 }
 
-char	*putstr_proce(char *save)//出力する文字列の処理、改行より前までを入れる
+char	*putstr_proce(char *save)
 {
 	int		i;
 	char	*put_str;
@@ -67,12 +63,12 @@ char	*putstr_proce(char *save)//出力する文字列の処理、改行より前
 	return (put_str);
 }
 
-char	*save_proce(char *save)//saveにおける改行以降を更新する処理
+char	*save_proce(char *save)
 {
 	char	*new_save;
 	int		i;
 	int		j;
-	
+
 	i = 0;
 	while (save[i] && save[i] != '\n')
 		i++;
@@ -93,7 +89,7 @@ char	*save_proce(char *save)//saveにおける改行以降を更新する処理
 	return (new_save);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	static char	*save;
 	char		*put_str;
@@ -101,31 +97,25 @@ char *get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	save = ft_read(fd, save);
-	// if (!save)
-	// 	return (NULL);
-	put_str = putstr_proce(save);
-	if (!put_str)
+	if (!save)
 		return (NULL);
-	//printf("%s\n", put_str);
+	put_str = putstr_proce(save);
 	save = save_proce(save);
-	// if (!save)
-	// 	return (NULL);
-	//printf("%s\n", save);
 	return (put_str);
 }
 
-int	main(void)
-{
-	int		fd;
-	char	*line;
+// int	main(void)
+// {
+// 	int		fd;
+// 	char	*line;
 
-	line = "";
-	fd = open("test.txt", O_RDONLY);
-	while (line)
-	{
-		line = get_next_line(fd);
-		printf("> %s", line);
-		free(line);
-	}
-	return (0);
-}
+// 	line = "";
+// 	fd = open("test.txt", O_RDONLY);
+// 	while (line)
+// 	{
+// 		line = get_next_line(fd);
+// 		printf("> %s", line);
+// 		free(line);
+// 	}
+// 	return (0);
+// }

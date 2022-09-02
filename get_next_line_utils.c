@@ -6,7 +6,7 @@
 /*   By: shsawaki <shsawaki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:41:04 by shsawaki          #+#    #+#             */
-/*   Updated: 2022/09/02 00:03:24 by shsawaki         ###   ########.fr       */
+/*   Updated: 2022/09/02 14:40:30 by shsawaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strchr(const char *s, int c)
 	if ((char)c == 0)
 		return ((char *)(s + i));
 	else if (s == NULL)
-		return (NULL);	
+		return (NULL);
 	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
@@ -79,7 +79,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 		return (ft_strdup(s2));
 	if (!s2)
-		return (s1);
+		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
 	ns = (char *)malloc(sizeof(char) * len);
 	if (!ns)
