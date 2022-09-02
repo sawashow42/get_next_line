@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shsawaki <shsawaki@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 12:39:52 by shsawaki          #+#    #+#             */
-/*   Updated: 2022/09/02 15:52:01 by shsawaki         ###   ########.fr       */
+/*   Updated: 2022/09/02 15:51:34 by shsawaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_read(int fd, char *save)
 {
@@ -89,16 +89,16 @@ char	*save_proce(char *save)
 
 char	*get_next_line(int fd)
 {
-	static char	*save;
+	static char	*save[257];
 	char		*put_str;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 256)
 		return (NULL);
-	save = ft_read(fd, save);
-	if (!save)
+	save[fd] = ft_read(fd, save[fd]);
+	if (!save[fd])
 		return (NULL);
-	put_str = putstr_proce(save);
-	save = save_proce(save);
+	put_str = putstr_proce(save[fd]);
+	save[fd] = save_proce(save[fd]);
 	return (put_str);
 }
 
